@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'local',
+    'default' => env('FILESYSTEM_DRIVER', 'minio'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => 's3',
+    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,39 +45,34 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root'   => storage_path('app'),
-        ],
-        
-        'media' => [
-            'driver'     => 'local',
-            'root'       => public_path('uploads'),
-            'url'        => env('APP_URL') . '/uploads',
-            'visibility' => 'public',
+            'root' => public_path('images'),
         ],
 
         'public' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public'),
-            'url'        => env('APP_URL') . '/storage',
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
+        ],
+
+        'minio' => [
+
+            'driver' => 's3',
+            'endpoint' => env('MINIO_ENDPOINT', 'http://167.71.178.244:9000'),
+            'use_path_style_endpoint' => true,
+            'key' => env('AWS_KEY', 'AKIAIOSFODNN7EXAMPLE'),
+            'secret' => env('AWS_SECRET', 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'),
+            'region' => env('AWS_REGION', 'us-east-1'),
+            'bucket' => env('AWS_BUCKET', 'teste'),
+
         ],
 
         's3' => [
             'driver' => 's3',
-            'key'    => env('AWS_KEY'),
+            'key' => env('AWS_KEY'),
             'secret' => env('AWS_SECRET'),
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
-        ],
-
-        'uploads' => [
-            'driver' => 'local',
-            'root' => public_path('uploads'),
-        ],
-
-        'uploads_test' => [
-            'driver' => 'local',
-            'root' => public_path('uploads/test')
         ],
 
     ],
